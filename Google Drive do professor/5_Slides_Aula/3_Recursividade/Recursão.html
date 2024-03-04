@@ -1,0 +1,945 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Recursão</TITLE>
+<META NAME="Author" CONTENT="Paulo Feofiloff">
+<META name="description" content="O conceito de recursão. Algoritmos recursivos. Solução recursiva de problemas.">
+<META NAME="keywords" CONTENT="recursao. recursivo">
+<META name="language" content="Portuguese">
+<META name="description" content="algoritmos recursivos, funcoes recursivas">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<LINK rel="stylesheet" href="aulas.css" type="text/css">
+<LINK rel="stylesheet" media="(max-width:1024px)" href="aulas-mobile.css" type="text/css">
+<LINK rel="stylesheet" media="print" href="aulas-print.css" type="text/css">
+<STYLE TYPE="text/css">
+p.step {
+   margin-top: 0em;
+   margin-bottom: 0em;
+   margin-left: 2em;
+}
+</STYLE>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-10925343-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</HEAD>
+<BODY>
+
+
+
+<p class="navigation">
+<a class="navig" href="../index.html">Projeto de Algoritmos</a> 
+
+&nbsp; | &nbsp;
+<a class="navig" href="../index.html#C-language">Linguagem C</a> 
+&nbsp; | &nbsp;
+<a class="navig" href="../idx.html">Índice</a>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="recu">Recursão e algoritmos recursivos</h1>
+
+
+
+
+
+
+<div class="epigrafes">
+
+<p>
+<q>Ao tentar resolver o problema,<br> 
+encontrei obstáculos dentro de obstáculos.<br>
+Por isso, adotei uma solução recursiva.</q><br>
+<span class="epigrafesignature">&mdash; aluno S.Y.</span>
+
+<p>
+<q><a class="translate" href="footnotes/epigraphs.html#recursion"
+>To understand recursion,<br>
+we must first understand recursion.</a></q><br>
+<span class="epigrafesignature">&mdash; anônimo</span>
+
+<p>
+<q>Para fazer um procedimento recursivo<br>
+é preciso ter fé.</q><br>
+<span class="epigrafesignature">&mdash; prof. <a href="http://www.ime.usp.br/~song/"
+>Siang Wun Song</a></span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<p>Muitos problemas têm a seguinte propriedade:
+cada <a href="footnotes/instance.html">instância</a>
+
+do problema contém uma instância menor do mesmo problema.
+Dizemos que esses problemas têm <i>estrutura recursiva</i>.&nbsp;
+Para resolver um tal problema,
+podemos aplicar o seguinte método:
+
+
+
+
+<ul>
+<li>se a instância em questão for pequena,
+  <p class="step">
+  resolva-a diretamente (use força bruta se necessário);
+
+<li>senão,
+  <p class="step">
+  <i>reduza-a</i> a uma instância menor do mesmo problema,
+  <p class="step">
+  aplique o método à instância menor,
+  <p class="step">
+  volte à instância original.
+
+</ul>
+
+
+
+
+<p>A aplicação desse método produz um
+<a href="footnotes/algoritmo.html">algoritmo</a>
+<i>recursivo</i>.
+Para mostrar como isso funciona, 
+examinaremos um exemplo concreto.
+
+
+
+
+
+
+
+<h2>Um exemplo</h2>
+
+<p>
+
+Considere o seguinte problema:&nbsp;&nbsp;
+<i>Determinar o valor <a href="footnotes/de_um.html">de um</a> 
+elemento máximo de um vetor</i>&nbsp;
+<tt>v[<a href="footnotes/sequence.html#abbrev">0..n-1</a>]</tt>&nbsp;.
+É&nbsp;claro que o problema só faz sentido se o vetor não é vazio,
+ou seja, se <span class="nw"><tt>n</tt> &ge; <tt>1</tt></span>.
+
+
+<p>Para preparar o terreno, examine uma tradicional solução 
+
+<a href="footnotes/interativo.html">iterativa</a> 
+do problema:
+
+
+
+<pre class="ind" id="maximo">
+int <a href="footnotes/accents.html">maximo</a> (int n, int v[]) { 
+   int j, x;
+   x = v[0];
+   for (j = 1; j &lt; n; j += 1)
+      if (x &lt; v[j]) x = v[j];
+   return x;
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h2 class="exr">Exercícios 1</h2>
+
+<div class="exr">
+
+<ol>
+
+<li id="fazsentido" class="exr">
+Considere a função iterativa&nbsp; <tt>maximo</tt>&nbsp; acima.&nbsp;
+Faz sentido trocar&nbsp; <q><tt class="ws">x = v[0]</tt></q>&nbsp; 
+por&nbsp; <q><tt class="ws">x = 0</tt></q>, 
+como fazem alguns programadores descuidados?&nbsp; 
+Faz sentido trocar&nbsp; 
+<q><tt class="ws">x = v[0]</tt></q>&nbsp; por&nbsp;
+<q><tt class="ws">x = <a href="../apend/limits.h.html">INT_MIN</a></tt></q>?&nbsp; 
+
+Faz sentido trocar&nbsp; 
+<q><tt>x &lt; v[j]</tt></q>&nbsp; por&nbsp; 
+<q><tt>x &lt;= v[j]</tt></q>?&nbsp;
+[<a href="solucoes/recu3.html">Veja uma solução parcial.</a>]
+
+
+<li class="exr">
+A função abaixo promete encontrar o valor de um elemento máximo 
+de <tt>v[0..n-1]</tt>. 
+A função cumpre a promessa?
+<pre class="ind">
+int maxi (int n, int v[]) {       
+   int j, m = v[0];
+   for (j = 1; j &lt; n; ++j)
+      if (v[j-1] &lt; v[j]) m = v[j];
+   return m;
+}
+</pre>
+
+
+<li class="exr">
+Que tipos de problemas um algoritmo recursivo é capaz de resolver?
+
+
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Solução recursiva do problema</h2>
+
+<p>Eis uma solução recursiva do problema da seção anterior:
+
+<pre class="hlt" id="max1">
+int 
+<b>maximoR</b> (int n, int v[])
+{ 
+   if (n == 1)
+      return v[0];
+   else {
+      int x;
+      x = <b>maximoR (n-1, v)</b>;  
+      <span class="comm">// x é o máximo de v[0..n-2]</span> 
+      if (x &gt; v[n-1])
+         return x;
+      else
+         return v[n-1]; 
+   }
+}
+</pre>
+
+<p>A análise da correção do algoritmo
+tem a mesma forma que uma prova por indução.&nbsp;
+Se <tt>n</tt> vale <tt>1</tt> 
+então <tt>v[0]</tt> é o único elemento relevante
+do vetor e portanto <tt>v[0]</tt> é o máximo.&nbsp;
+Agora suponha que <tt>n</tt> vale mais que <tt>1</tt>.
+Então nosso vetor tem duas partes: <tt>v[0..n-2]</tt> e <tt>v[n-1]</tt>
+e portanto o valor que procuramos é o maior dentre
+
+<p class="center">
+<tt>v[n-1]</tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+um máximo de <tt>v[0..n-2]</tt>.
+
+ <p><span class="comm">(Eis 
+ um roteiro que pode ajudar a verificar 
+ se a função está 
+ <a href="footnotes/algoritmocorreto.html">correta</a>:&nbsp;
+ 1.&nbsp;Escreva <i>o que</i> a função deve fazer.&nbsp;
+ 2.&nbsp;Verifique que a função de fato faz o que 
+ deveria quando <tt>n</tt> é pequeno,
+ ou seja, quando <tt>n</tt> vale&nbsp;<tt>1</tt>.&nbsp;
+ 3.&nbsp;Agora imagine que <tt>n</tt> é grande, 
+ ou seja, <span class="nw"><tt>n</tt> &gt; <tt>1</tt></span>,
+ e verifique que a função faz a coisa certa
+ <i>supondo que faria a coisa certa se no lugar de</i> <tt>n</tt>
+ <i>tivéssemos algo menor que</i>&nbsp;<tt>n</tt>.)
+ </span>
+
+<p>Para que uma função recursiva seja compreensível,
+é muito importante que o autor da função diga,
+explicitamente, 
+<a href="docu.html#oquefaz"><i>o&nbsp;que</i> a função faz</a>.
+Portanto, eu deveria escrever o seguinte comentário antes do código:
+
+<pre class="hlt">
+<span class="comm">// Ao receber v e n &gt;= 1, a função devolve
+// o valor de um elemento máximo 
+// do vetor v[0..n-1].</span>
+</pre>
+
+
+
+
+
+
+
+
+
+
+<p class="extratop">
+<span class="paragraph">Desempenho.</span>&nbsp;&nbsp;
+
+Algumas pessoas acreditam que 
+funções recursivas são inerentemente ineficientes e lentas,
+mas isso não passa de lenda.&nbsp;
+Talvez a lenda tenha origem em usos descuidadas da recursão,
+como <a href="#Fibonacci">num dos exercícios abaixo</a>.&nbsp;
+<span class="comm">(Nem tudo são flores, entretanto.
+É preciso lembrar do espaço de memória que a
+<a href="pilha.html#pilhadeexecucao"
+>pilha de recursão</a> consome.)</span>
+
+
+<p>
+Como o computador executa um algoritmo recursivo?&nbsp;
+Embora relevante,
+essa pergunta será ignorada por enquanto.
+Veja o capítulo sobre 
+<a href="pilha.html#pilhadeexecucao">pilhas</a>.
+
+
+
+
+
+
+
+<h2 class="exr">Exercícios 2</h2>
+
+<div class="exr">
+
+<ol>
+
+<li class="exr">
+Verifique que a seguinte maneira de escrever a função <tt>maximoR</tt>
+é exatamente equivalente à vista <a href="#max1">acima</a>:
+<pre class="ind">
+int maximoR (int n, int v[]) {
+   int x;
+   if (n == 1) x = v[0];
+   else {
+      x = maximoR (n-1, v); 
+      if (x &lt; v[n-1]) x = v[n-1];
+   }
+   return x;
+}
+</pre>
+
+
+
+<li class="exr">
+Verifique que a seguinte maneira de escrever a função <tt>maximoR</tt>
+é exatamente equivalente à vista <a href="#max1">acima</a>:
+<pre class="ind">
+int maximoR (int n, int v[]) {
+   int x; 
+   if (n == 1) return v[0];
+   x = maximoR (n-1, v);
+   if (x &gt; v[n-1]) return x;
+   else return v[n-1]; 
+}
+</pre>
+
+
+
+
+<li class="exr" id="recu7">
+Critique a seguinte função recursiva; 
+ela promete encontrar o valor de 
+um elemento máximo de <tt>v[0..n-1]</tt>.
+<pre class="ind">
+int maximoR1 (int n, int v[]) {       
+   int x;
+   if (n == 1) return v[0];    
+   if (n == 2) {
+      if (v[0] &lt; v[1]) return v[1];
+      else return v[0];
+   }
+   x = maximoR1 (n-1, v);
+   if (x &lt; v[n-1]) return v[n-1];
+   else return x;
+}
+</pre>
+
+
+<li class="exr">
+Critique a seguinte função recursiva,
+que promete encontrar o valor de 
+um elemento máximo de <tt>v[0..n-1]</tt>.
+<pre class="ind">
+int maximoR2 (int n, int v[]) {
+   if (n == 1) return v[0];
+   if (maximoR2 (n-1, v) &lt; v[n-1]) 
+      return v[n-1];
+   else 
+      return maximoR2 (n-1, v);
+}
+</pre>
+
+
+
+
+
+
+
+
+
+    
+<li class="exr">
+Escreva uma função recursiva <tt>maxmin</tt> que calcule 
+o valor de um elemento máximo e 
+o valor de um elemento mínimo 
+de um vetor <tt>v[0..n-1]</tt>.
+Quantas comparações envolvendo os elementos do vetor sua função faz?
+
+
+
+<li class="exr" id="recu2">
+<span class="smallcaps">Programa de teste.</span>&nbsp;
+Escreva um pequeno programa 
+para testar a função recursiva <tt>maximoR</tt>.&nbsp;
+O seu programa deve esperar que o usuário digite 
+uma sequência de números e em seguida 
+devolver o valor do maior dos números digitados.&nbsp;
+[<a href="solucoes/recu2.html">Veja uma solução.</a>]&nbsp;&nbsp;
+
+Agora faça uma nova versão do programa 
+para determinar um elemento máximo de um 
+vetor <a href="random.html">aleatório</a>.
+Acrescente ao seu programa uma função que 
+<i>confira a resposta</i> dada por <tt>maximoR</tt>.&nbsp;
+[<a href="solucoes/recu2.html#part2">Veja uma solução</a>]
+
+
+
+
+<li class="exr" id="recu5">
+Escreva uma função recursiva que calcule
+a soma dos elementos
+<a href="footnotes/positivo-negativo.html">positivos</a>
+do vetor
+de inteiros&nbsp; <tt>v[0..n-1]</tt>.&nbsp;
+O problema faz sentido 
+quando <tt>n</tt> é igual a <tt>0</tt>?&nbsp;
+Quanto deve valer a soma nesse caso?&nbsp;
+[<a href="solucoes/recu5.html">Veja solução.</a>]
+
+
+<li class="exr" id="recu8">
+Escreva uma função recursiva que calcule
+o produto dos elementos estritamente positivos de um vetor
+de inteiros&nbsp; <tt>v[0..n-1]</tt>.&nbsp;
+O problema faz sentido quando todos os elementos do vetor são nulos?&nbsp;
+O problema faz sentido 
+quando <tt>n</tt> vale&nbsp;<tt>0</tt>?&nbsp;
+Quanto deve valer o produto nesses casos?
+
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<h2>Outra solução recursiva</h2>
+
+
+<p>A função <tt>maximoR</tt> discutida acima
+aplica a recursão ao segmento <tt>v[0..n-2]</tt>.&nbsp;
+É possível  escrever uma versão que 
+aplique a recursão ao segmento <tt>v[1..n-1]</tt>:
+
+ 
+<pre class="hlt">
+<span class="comm">// Ao receber v e n >= 1, esta função devolve
+// o valor de um elemento máximo do vetor
+// v[0..n-1].</span>
+
+int 
+maximo2 (int n, int v[]) 
+{
+   return maxR (0, n, v);
+}
+</pre>
+
+<p>A função <tt>maximo2</tt> é apenas uma <q>embalagem</q> 
+(=&nbsp;<em>wrapper-function</em>);
+o serviço pesado é executado pela função recursiva&nbsp;<tt>maxR</tt>:
+
+<pre class="hlt">
+<span class="comm">// Recebe v e i < n e devolve o valor de
+// um elemento máximo do vetor v[i..n-1].</span>
+
+int 
+<b>maxR</b> (int i, int v[]) 
+{
+   if (i == n-1) return v[i];
+   else {
+      int x;
+      x = maxR (i + 1, v);
+      if (x &gt; v[i]) return x;
+      else return v[i]; 
+   } 
+}
+</pre>
+
+<p>A função <tt>maxR</tt> 
+resolve um problema <i>mais geral</i> que o original.&nbsp;
+A necessidade de generalizar o problema original
+ocorre com frequência no projeto de algoritmos recursivos.
+
+
+
+<p id="addressarithmetic">A título de curiosidade,
+eis outra maneira, talvez surpreendente, 
+de aplicar recursão ao segmento <tt>v[1..n-1]</tt>.&nbsp;
+Ela usa <a href="pont.html#array">aritmética de endereços</a>:
+
+<pre class="ind">
+int <b>maximo2R</b> (int n, int v[]) {
+   int x;
+   if (n == 1) return v[0];
+   x = maximo2R (n - 1, <b>v + 1</b>);
+   if (x &gt; v[0]) return x;
+   return v[0];
+}
+</pre>
+
+
+
+
+<h2 class="exr">Exercícios 3</h2>
+
+<div class="exr">
+
+<ol>
+
+<li class="exr">
+A seguinte função recursiva 
+pretende encontrar o valor de um elemento máximo 
+de <tt>v[p..u]</tt>,
+supondo <span class="nw"><tt>p</tt> &le; <tt>u</tt></span>.&nbsp;
+(O&nbsp;índice <tt>p</tt> aponta o primeiro elemento do vetor 
+e o índice <tt>u</tt> aponta o último.)&nbsp;
+A&nbsp;função está correta?
+
+Suponha que <tt>p</tt> e <tt>u</tt> valem <tt>0</tt> e&nbsp;<tt>6</tt> 
+respectivamente
+e mostre a sequência, devidamente indentada, de chamadas de&nbsp;<tt>max</tt>.
+<pre class="ind">
+int max (int p, int u, int v[]) {
+   if (p == u) return v[u];
+   else {
+      int i, x, y;
+      i = (p + u)/2;
+      x = max (p, i, v);
+      y = max (i+1, u, v);
+      if (x &gt;= y) return x;
+      else return y;
+   }
+}
+</pre>
+
+
+
+
+<li class="exr">
+Escreva uma função recursiva que calcule
+a soma dos elementos
+<a href="footnotes/positivo-negativo.html">positivos</a>
+do vetor&nbsp; <tt>v[p..u-1]</tt>.&nbsp;
+O problema faz sentido 
+quando&nbsp; <tt>p</tt> é igual a <tt>u</tt>?&nbsp;
+Quanto deve valer a soma nesse caso?
+
+
+
+<li class="exr">
+Critique a documentação do seguinte código:
+<pre class="ind">
+// Recebe um vetor de tamanho n
+// e devolve a soma do vetor.
+int soma (int v[], int n) {
+   return sss (v, n+1); 
+}
+int sss (int v[], int n) {
+   if (n == 1) return 0;
+   return sss (v, n-1) + v[n-1]; 
+}
+</pre>
+
+
+
+
+
+<li class="exr" id="zero-to-n-1-indexing">
+Diga <em>o que</em> a função abaixo faz.&nbsp;
+Para quais valores dos parâmetros sua resposta está correta?
+<pre class="ind">
+int ttt (int x[], int n) {
+   if (n == 0) return 0;
+   if (x[n] > 100)  return x[n] + ttt (x, n-1);
+   else  return ttt (x, n-1);
+}
+</pre>
+
+
+
+
+<li class="exr">
+Escreva uma função recursiva
+que calcule a soma dos dígitos
+de um inteiro estritamente positivo <TT>n</TT>. 
+A soma dos dígitos de <TT>132</TT>, por exemplo,
+é&nbsp;<TT>6</TT>.
+
+
+<li class="exr">
+Escreva uma função recursiva que calcule o 
+<a href="footnotes/floor-ceil.html">piso</a> do 
+logaritmo de <i>N</i> na base&nbsp;2.&nbsp;
+(Veja uma <a href="docu.html#floor-lg">versão iterativa do exercício</a>.)
+
+
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+<h2 class="exr">Exercícios 4</h2>
+
+<div class="exr">
+
+<ol>
+
+<li class="exr" id="recu1">
+Qual o valor de <tt class="ws">X (4)</tt>
+se <tt>X</tt> é dada pelo seguinte código?&nbsp;
+[<a href="solucoes/recu1.html">Veja uma solução.</a>]
+<pre class="ind">
+int X (int n) {
+   if (n == 1 || n == 2) return n;
+   else return X (n-1) + n * X (n-2);
+}
+</pre>
+
+
+
+<li class="exr">
+Qual é o valor de <tt class="ws">f (1,10)</tt>? 
+Escreva uma função equivalente que seja mais simples.
+<pre class="ind">
+double f (double x, double y) {
+   if (x &gt;= y) return <a href="footnotes/int-division.html">(x + y)/2</a>;
+   else return f (f (x+2, y-1), f (x+1, y-2));
+}
+</pre>
+
+    
+<li class="exr">
+Qual o resultado da execução do seguinte programa?
+
+<pre class="ind">
+int ff (int n) {
+   if (n == 1) return 1;
+   if (n % 2 == 0) return ff (n/2);
+   return ff ((n-1)/2) + ff ((n+1)/2);
+}
+int main (void) {
+   printf ("%d", ff(7)); 
+   return EXIT_SUCCESS;
+}
+</pre>
+
+    
+
+<li class="exr">Execute <tt class="ws">fusc (7,0)</tt>.
+Mostre a sequência, devidamente indentada, das chamadas a&nbsp;<tt>fusc</tt>.
+<pre class="ind">
+int fusc (int n, int profund) {
+  int i;
+  for (i = 0; i < profund; ++i) 
+     printf ("  ");
+  printf ("fusc(%d,%d)\n", n, profund);
+  if (n = 1) 
+     return 1;
+  if (n % 2 == 0) 
+     return fusc (n/2, profund+1);
+  return fusc ((n-1)/2, profund+1) + 
+         fusc ((n+1)/2, profund+1);
+}
+</pre>
+
+
+
+<li class="exr">
+<span class="smallcaps">Importante.</span>&nbsp;
+Critique a seguinte função recursiva:
+
+<pre class="ind">
+int XX (int n) {
+   if (n == 0) return 0;
+   else return XX (n/3+1) + n;
+}
+</pre>
+
+
+
+
+<li class="exr" id="Fibonacci">
+<span class="smallcaps">Fibonacci.</span>&nbsp;
+A função de Fibonacci é definida assim:&nbsp;&nbsp;
+<tt class="ws">F(0) = 0</tt>,&nbsp; 
+<tt class="ws">F(1) = 1</tt>&nbsp;&nbsp; 
+e&nbsp;&nbsp; 
+<tt class="ws">F(n) = F(n-1) + F(n-2)</tt>&nbsp;&nbsp;
+para <tt class="ws">n &gt; 1</tt>.
+Descreva a função <tt>F</tt> em linguagem&nbsp;C.
+Faça uma versão iterativa e uma recursiva.
+    
+
+<li class="exr">
+Seja <tt>F</tt> a versão recursiva da
+<a href="#Fibonacci">função de Fibonacci</a>.&nbsp;
+O cálculo do valor da expressão <tt>F(3)</tt>
+provocará a seguinte sequência de invocações da função:
+<pre class="ind">
+   F(3)
+     F(2)
+       F(1)
+       F(0)
+     F(1)
+</pre>
+Qual a sequência de invocações da função
+durante o cálculode&nbsp;<tt>F(5)</tt>?
+
+
+
+
+
+
+
+<li class="exr" id="Euclides">
+<span class="smallcaps">Euclides.</span>&nbsp;
+
+A seguinte função calcula o maior divisor comum
+dos inteiros estritamente positivos <tt>m</tt> e <tt>n</tt>. 
+Escreva uma função recursiva equivalente.
+<pre class="ind">
+int Euclides (int m, int n) {
+   int r;
+   do {
+      r = m % n; 
+      m = n; 
+      n = r;
+   } while (r != 0);
+   return m; 
+}
+</pre>
+
+
+<li class="exr">
+<span class="smallcaps">Exponenciação.</span>&nbsp;
+
+Escreva uma função recursiva eficiente que receba 
+inteiros estritamente positivos <var>k</var> e <var>n</var> e 
+calcule&nbsp;<var>k</var><sup><var>n</var></sup>.&nbsp;
+(Suponha que <var>k</var><sup><var>n</var></sup> 
+cabe em um <tt>int</tt>.)&nbsp;
+Quantas multiplicações sua função executa aproximadamente?
+
+
+
+
+
+
+<pre style="margin:2em 2em 0em 1.5em;font-size:0.80em;float:right">
+<b>.
+. -
+. --
+. -
+. ---
+. -
+. --
+. -
+. ----
+. -
+. --
+. -
+. ---
+. -
+. --
+. -
+.</b>
+</pre>
+<li class="exr" id="regua-inglesa">
+<span class="smallcaps">Régua inglesa</span>
+[Sedgewick 5.8, Roberts 5.11]&nbsp;
+Escreva uma <a href="footnotes/function.html">função</a> 
+recursiva que imprima uma 
+<em>régua de ordem <var>n</var></em>
+no intervalo [0..2<sup><var>n</var></sup>].&nbsp;
+O&nbsp;<q>traço</q> no ponto médio da régua 
+deve ter comprimento&nbsp;<var>n</var>,
+os traços nos pontos médios dos subintervalos 
+superior e inferior devem ter comprimento&nbsp;<var>n</var>&minus;1,
+e assim por diante.&nbsp;
+A figura mostra uma régua de ordem&nbsp;4.
+
+
+
+
+</ol>
+</div>
+
+
+
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="q-and-a">
+<hr>
+<h3 id="q-and-a">Perguntas e respostas</h3>
+
+<ul>
+
+
+
+
+
+<li id="precedence">
+<span class="smallcaps">Pergunta:</span>&nbsp;
+Num dos exercícios acima aparece a expressão&nbsp;
+<tt class="ws">if (n == 1 || n == 2)</tt>.&nbsp;
+Eu não deveria escrever&nbsp;
+<tt class="ws">if ((n == 1) || (n == 2))</tt>?
+
+<p>
+<span class="smallcaps">Resposta:</span>&nbsp;
+Não.&nbsp;
+Os parênteses adicionais são redundantes
+porque o operador&nbsp; <tt>==</tt>&nbsp; 
+tem <a href="../apend/precedence.html">precedência</a>
+sobre&nbsp;&nbsp;<tt>||</tt>.
+
+
+
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="footer">
+<hr>
+<p>Veja o verbete 
+<a href="http://en.wikipedia.org/wiki/Recursion#Recursion_in_computer_science"
+><i>Recursion</i></a> na Wikipedia
+
+<hr>
+<p>Veja bons exemplos de recursão no capítulo sobre <a href="enum.html">
+algoritmos de enumeração</a>
+
+<hr>
+<p>
+Atualizado em 2016-01-23<br>
+http://www.ime.usp.br/~pf/algoritmos/<br>
+<em>Paulo Feofiloff</em><br>
+<em><a href="http://www.ime.usp.br/dcc/"
+><abbr title="Departamento de Ciência da Computação">DCC</abbr></a>-<a href="http://www.ime.usp.br/"
+><abbr title="Instituto de Matemática e Estatística">IME</abbr></a>-<a href="http://www.usp.br/"
+><abbr title="Universidade de São Paulo">USP</abbr></a></em>
+
+<p class="validator">
+<a href="http://jigsaw.w3.org/css-validator/validator?uri=http://www.ime.usp.br/~pf/algoritmos/aulas/recu.html">
+<img class="r" src="../gif/vcss.png" alt="Valid CSS!"></a>
+<a href="http://validator.w3.org/check?uri=http://www.ime.usp.br/~pf/algoritmos/aulas/recu.html">
+<img class="r" src="../gif/valid-html401.png" alt="Valid HTML 4.01 Strict"></a>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-10925343-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</BODY>
+</HTML>

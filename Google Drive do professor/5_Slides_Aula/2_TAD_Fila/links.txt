@@ -1,0 +1,7 @@
+
+
+http://www.ime.usp.br/~pf/algoritmos/aulas/fila.html
+
+http://osorio.wait4.org/oldsite/prog2/prog2-filaestatica.pdf   <<<--- muito bom unisinos
+
+http://www.ufpa.br/sampaio/curso_de_estdados_1/filas/filacirc_conceito.htm  <<<--- tem simulacao

@@ -1,0 +1,28 @@
+
+Exercicio 2: Modificar o Exercicio de Revisao
+
+Pegar o arquivo que foi upado (python_workspace_2022.zip), 
+criar uma cópia e alterar conforme pedido abaixo:
+
+
+
+Na classe Motor adicionar:
+
+-Método que aumenta a potencia do motor.
+
+def aumenta_potencia(self, mais_potencia):
+
+-Método que funde o motor de acordo com a temperatura do motor. 
+Se a temperatura for maior que 500 Celcius, o motor esta morto e não funciona mais.
+
+def funde_motor(self):
+
+
+
+Na classe Carro adicionar:
+
+Alterar o método acelerar: o carro só pode acelerar caso o motor não esteja fundido.
+
+
+Testar no main.py
+

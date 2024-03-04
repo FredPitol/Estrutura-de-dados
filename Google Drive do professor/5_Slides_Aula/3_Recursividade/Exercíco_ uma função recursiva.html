@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Exercíco: uma função recursiva</TITLE>
+<META NAME="Author" CONTENT="Paulo Feofiloff">
+<META name="description" content="">
+<META NAME="keywords" CONTENT="recursao">
+<META name="language" content="Portuguese">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<LINK rel="stylesheet" href="../aulas.css" type="text/css">
+<LINK rel="stylesheet" href="solucoes.css" type="text/css">
+<LINK rel="stylesheet" media="(max-width:1024px)" href="solucoes-mobile.css" type="text/css">
+<LINK rel="stylesheet" media="print" href="solucoes-print.css" type="text/css">
+</HEAD>
+<BODY>
+
+
+
+
+
+<p class="right">[<a href="../recu.html#recu1"
+>Volta</a>]
+
+
+
+
+
+<p>&nbsp;
+<h2>Qual o valor de X(5)?</h2>
+
+
+<pre>
+                 ------------------------------
+                 |X(4) = X(3)+4*X(2) = ?      |
+                 | ------------------------------
+                 | |X(3) = X(2)+3*X(1) = ?      |
+                 --| ------------------------------
+                   | |X(2) = 2                    |
+                   --|                            |
+                     |                            |
+                     ------------------------------
+                 ------------------------------
+                 |X(4) = X(3)+4*X(2) = ?      |
+                 | ------------------------------
+                 | |X(3) = 2+3*X(1) = ?         |
+                 --|                            |  
+                   |                            |  
+                   ------------------------------   
+                 ------------------------------
+                 |X(4) = X(3)+4*X(2) = ?      |
+                 | ------------------------------
+                 | |X(3) = X(2)+3*X(1) = ?      |
+                 --| ------------------------------
+                   | |X(1) = 1                    |
+                   --|                            |
+                     |                            |
+                     ------------------------------
+                 ------------------------------
+                 |X(4) = X(3)+4*X(2) = ?      |
+                 | ------------------------------
+                 | |X(3) = 2+3*1 = 5            |
+                 --|                            |  
+                   |                            |  
+                   ------------------------------   
+                 ------------------------------
+                 |X(4) = 5+4*X(2) = ?         |
+                 |                            |  
+                 |                            |  
+                 ------------------------------    
+                 ------------------------------
+                 |X(4) = 5+4*X(2) = ?         |
+                 | ------------------------------
+                 | |X(2) = 2                    |
+                 --|                            |  
+                   |                            |  
+                   ------------------------------   
+                 ------------------------------
+                 |X(4) = 5+4*2 = 13           |
+                 |                            |  
+                 |                            |  
+                 ------------------------------    
+
+</pre>
+
+
+<h2>Solução resumida</h2>
+
+<pre>
+                                X(4)
+                                 |
+                           --------------
+                          |              |
+                        X(3)            X(2)
+                          |
+                     -----------
+                    |           |
+                  X(2)        X(1)       
+
+
+
+                                X(4)
+                                 |
+                           -------------- 
+                          |              |
+                        X(3)             2
+                          |
+                     -----------
+                    |           |
+                    2           1 
+
+
+
+                                X(4)
+                                 |
+                           -------------- 
+                          |              |
+                          5              2
+
+
+
+                                 13
+
+</pre>
+
+
+<h2>Solução mais resumida</h2>
+
+<pre>
+
+                       n              X(n)
+                       1                1
+                       2                2
+                       3     2 + 3*1 =  5
+                       4     5 + 4*2 = 13
+</pre>
+
+
+
+
+
+
+
+ 
+
+
+
+
+<div class="footer">
+<hr>
+<p>
+Last modified: Mon Apr 13 07:13:06 BRT 2015 <br>
+http://www.ime.usp.br/~pf/algoritmos/
+
+<p class="validator">
+<a href="http://jigsaw.w3.org/css-validator/validator?uri=http://www.ime.usp.br/~pf/algoritmos/aulas/solucoes/recu1.html">
+<img class="r" src="../../gif/vcss.png" alt="Valid CSS!"></a>
+<a href="http://validator.w3.org/check?uri=http://www.ime.usp.br/~pf/algoritmos/aulas/solucoes/recu1.html">
+<img class="r" src="../../gif/valid-html401.png" alt="Valid HTML 4.01 Strict"></a>
+
+</div>
+
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-10925343-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</BODY>
+</HTML>

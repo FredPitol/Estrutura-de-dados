@@ -1,5 +1,5 @@
 from professor import Professor
-from departamento import Professor
+from departamento import Departamento
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
