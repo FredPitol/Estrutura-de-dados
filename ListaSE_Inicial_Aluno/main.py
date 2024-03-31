@@ -85,13 +85,14 @@ def maior_elemento(lista:SinglyLinkedListIterator):
 
 
     # < 1 -> 2 -> 4 -> 5 >
+    """
 def maior_menor_elemento(lista: SinglyLinkedListIterator):
     if lista.size == 0:
         print(f'lista vazia')
         return None
     else:
         pass
-
+    """
 
 def iguais_listas(lst1: SinglyLinkedListIterator, lst2: SinglyLinkedListIterator):
     pass
