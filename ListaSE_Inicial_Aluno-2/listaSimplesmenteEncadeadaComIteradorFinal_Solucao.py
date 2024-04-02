@@ -31,22 +31,6 @@ class SinglyLinkedListIterator:  # LinkedList
         else:
             self.size = 0
 
-  
-    # def getSize(self):
-    #     return self.size
-    #
-    # def get_firstNode(self):
-    #     return self.firstNode
-    #
-    # def get_lastNode(self):
-    #     return self.lastNode
-    #
-    # def get_iterator(self):
-    #     return self.iterator
-    #
-    # def setSize(self, size):
-    #     self.size = size
-
 
     def addNode(self, data): # attach or anexar um Node depois do iterador:
         """Pre condicao: Iterador definido
@@ -101,12 +85,6 @@ class SinglyLinkedListIterator:  # LinkedList
             # newNode.nextNode = self.iterator
             # self.iterator.antNode = newNode
             # self.iterator = newNode
-
-            
-
-            
-
-
 
     def elimNode(self): # elimina o elemento que está sobre o iterador e avanca o iterador para proximo Noh.
         if(self.iterator == self.firstNode): # iterador sobre o primeiro elemento

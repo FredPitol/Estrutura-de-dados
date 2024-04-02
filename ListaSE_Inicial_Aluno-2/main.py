@@ -18,7 +18,6 @@ from listaSimplesmenteEncadeadaComIteradorFinal_Solucao import *
     def contidaLista(lst1, lst2):
 11) def invLista(lst:SinglyLinkedListIterator): # inverter uma lista lst, destruindo a lista original
 """
-
 def print_Lista_SE(lista:SinglyLinkedListIterator):
     if lista.size == 0:
         print("a lista esta vazia")
@@ -27,7 +26,6 @@ def print_Lista_SE(lista:SinglyLinkedListIterator):
         while lista.iterator: 
             print(f"{lista.iterator.data}")
             lista.nextNode() 
-
 def print_Impares_Conta(lista:SinglyLinkedListIterator):
     contagem = 0
     if lista.size == 0:
@@ -40,7 +38,6 @@ def print_Impares_Conta(lista:SinglyLinkedListIterator):
                 contagem += 1 
             lista.nextNode()
         print(f"Quantidade de numero impares da lista: {contagem}")
-
 def maior_Impar(lista:SinglyLinkedListIterator):
     maior = 0 
     lista.first_Node()
@@ -50,7 +47,6 @@ def maior_Impar(lista:SinglyLinkedListIterator):
                 maior = lista.iterator.data
         lista.nextNode()
     print (f"O maior numero impar da lista: {maior}")
-
 def print_Lista(lista):
     if lista.size == 0:
         print('A lista está vazia \n')
@@ -59,7 +55,6 @@ def print_Lista(lista):
         while lista.iterator:
             print(f"{lista.iterator.data}")
             lista.iterator = lista.iterator.nextNode # OU lista.nextNode()
-
 def maior_elemento(lista:SinglyLinkedListIterator):
     if lista.size == 0:
         print("lista esta vazia")
@@ -74,8 +69,6 @@ def maior_elemento(lista:SinglyLinkedListIterator):
             #avancar iterator para proximo No
             lista.nextNode() #lista.iterator = lista.iterator.nextNode
         return maior
-
-
 def recebe_Menor_Maior(lista: SinglyLinkedListIterator):
     if lista.size == 0:
         print("Lista vazia\n")
@@ -90,7 +83,6 @@ def recebe_Menor_Maior(lista: SinglyLinkedListIterator):
                 menor = lista.iterator.data
             lista.nextNode()
     return menor, maior
-
 def verifica_Listas_Iguais(lista1: SinglyLinkedListIterator, lista2: SinglyLinkedListIterator):
     if lista1.size == 0 and lista2.size == 0:
         print("Ambas as listas estão vazias")
@@ -108,45 +100,82 @@ def verifica_Listas_Iguais(lista1: SinglyLinkedListIterator, lista2: SinglyLinke
             lista2.nextNode()
         print("As listas são iguais")
         return True
-
 def adiciona_Elemen_Final(lista: SinglyLinkedListIterator, dado):
     lista.last_Node()
     lista.addNode(dado)
     lista.last_Node()
-
 def adiciona_Elemen_Inicio(lista: SinglyLinkedListIterator, dado): 
     lista.first_Node()
     lista.insNode(dado)
     lista.first_Node()
-
 def concat_Lista(lista1: SinglyLinkedListIterator, lista2: SinglyLinkedListIterator): 
-    # concatenar a lst2 no final da lst1
-    # por o iterador da lista 1 no ultimo noh
-    # por o iterador da lista 2 no primeiro noh
-    # percorrer a lista 2:
-
-    print_Lista_SE(lista1)
-    print_Lista_SE(lista2)
-
+    lista1.last_Node()
+    lista2.first_Node()
     while lista2.iterator:
-        adiciona_Elemen_Final(lista1, lista2.iterator.data)
+        lista1.addNode(lista2.iterator.data)
         lista2.nextNode()
-
-    
-
-
-# verificar se o elemento data esta presente na lista lst.
-# se data estiver presente, retornar True, caso contrario, False
-def esta_na_lista(lst:SinglyLinkedListIterator, data):
-    # lista vazia: return False
-    pass
-    
-
-
-def estaOrdenada(lst:SinglyLinkedListIterator): # ordem crescente
+def esta_na_lista(lista:SinglyLinkedListIterator, dado):
+    # verificar se o elemento data esta presente na lista lst.
+    # se data estiver presente, retornar True, caso contrario, False
+    if lista.size == 0:
+        print(f"Lista vazia")
+        return False
+    else:
+        lista.first_Node()
+        while lista.iterator:
+            if lista.iterator.data == dado:
+                return True
+            lista.nextNode()
+        return False
+def copia_lista_se(lista: SinglyLinkedListIterator):
+    # Incompleto
+    lista.first_Node()
+    lista.nextNode()
+def esta_ordenada(lista:SinglyLinkedListIterator): 
+    # Verifica se a lista está ordenada de forma crescente 
+    # ordem crescente
     # se a lista esta vazia ou com soh um elemento: return True
-    pass
+    if lista.size == 0 or lista.size == 1:
+        return True
+    else:
+        lista.first_Node() 
+        anterior = lista.iterator.data
+        while lista.iterator:
+            lista.nextNode()
+            if lista.iterator.data > anterior:
+                anterior = lista.iterator.data
+                lista.nextNode()
+            else:  
+                return False
+        return True
 
+        """
+        lista.first_Node()
+        print(lista.iterator.nextNode)
+        while lista.iterator:
+            lista.nextNode()
+            proxIterador = lista.iterator.data
+            lista.last_Node()
+            if proxIterador > lista.iterator.data:
+                lista.nextNode()
+            else: 
+                return False 
+        return True
+        """
+
+        """
+        lista.first_Node()
+        print(lista.iterator.nextNode)
+        while lista.iterator:
+            lista.nextNode()
+            proxIterador = lista.iterator.data
+            lista.last_Node()
+            if proxIterador > lista.iterator.data:
+                lista.nextNode()
+            else: 
+                return False 
+        return True
+        """
 def verifica_quinto_elemento_igual_elem(lst:SinglyLinkedListIterator, elem):
     pass
     
@@ -154,8 +183,6 @@ def inverte_lista(lst:SinglyLinkedListIterator):
     pass
 
 if __name__ == '__main__':
-
-
     #novo_noh = ListNode(5)
     #novo_noh.data = 10
     #lista22 = SinglyLinkedListIterator(novo_noh)
@@ -195,41 +222,52 @@ if __name__ == '__main__':
     lista3.addNode(20)
     lista3.addNode(30)
     lista3.addNode(40)
-
-    print(f'\n=== 4) Verifica se duas listas são iguais ===\n')
-
-    resultado = verifica_Listas_Iguais(lista2, lista3)
-
-    if resultado:
-        print("As listas são iguais(Usando retorno booleano)\n")
-    else:   
-        print("As listas são diferentes(Usando retorno booleano)\n")
     
-    resultado = verifica_Listas_Iguais(lista1, lista3)
-
+    # 4) Verifica se duas listas são iguais
+    print(f'\n=== 4) Verifica se duas listas são iguais ===\n')
+    resultado = verifica_Listas_Iguais(lista2, lista3)
     if resultado:
         print("As listas são iguais(Usando retorno booleano)\n")
     else:   
         print("As listas são diferentes(Usando retorno booleano)\n")
-
+    resultado = verifica_Listas_Iguais(lista1, lista3)
+    if resultado:
+        print("As listas são iguais(Usando retorno booleano)\n")
+    else:   
+        print("As listas são diferentes(Usando retorno booleano)\n")
+    # 5) Adiciona elemento no final da lista deixando iterador nele
     print(f'\n=== 5) Adiciona elemento no final da lista deixando iterador nele ===\n') 
     adiciona_Elemen_Final(lista1, 99)
     print_Lista_SE(lista1)
-  
+    # 6) Insere elemento no inicio da lista deixando iterador nele
     print(f'\n=== 6) Insere elemento no inicio da lista deixando iterador nele ===\n') 
     adiciona_Elemen_Inicio(lista1, 98)
     print_Lista_SE(lista1)
-
+    # 7) Concatena lista2 no final da lista1
     print(f'\n=== 7) Concatena lista2 no final da lista1 ===\n') 
-      
-    print(f"Lista 1: {lista1.last_Node()}\n Lista 2{lista2.first_Node()}")
-    concat_Lista(lista1, lista2)
+    print("Lista1:")
     print_Lista_SE(lista1)
-
-
+    print(f"\nLista2")
+    print_Lista_SE(lista2)
+    concat_Lista(lista1, lista2)
+    print("\nLista1: Cocatenada")
+    print_Lista_SE(lista1)
+    # 8) Verifica se um dado está na lista
     print(f'\n=== 8) Verifica se um dado está na lista ===\n') 
-    print(f'\n=== 9) Ordenar lista de forma crescente ===\n') 
+    print(esta_na_lista(lista2, 10))
+    print(esta_na_lista(lista2, 20))
+    print(esta_na_lista(lista2, 30))
+    print(esta_na_lista(lista2, 40))
+    print(esta_na_lista(lista2, 50))
+    # 9) Verifica se a lista está ordenada de forma crescente
+    print(f'\n=== 9) Verifica se a lista está ordenada de forma crescente ===\n') 
+    print_Lista_SE(lista2)
+    print(f"{esta_ordenada(lista2)}\n")
+    print_Lista_SE(lista1)
+    print(esta_ordenada(lista1))
+    # 10) Verifica se uma lista está contida em outra
     print(f'\n=== 10) Verifica se uma lista está contida em outra ===\n') 
+
     print(f'\n=== 11) Retorna lista invertida destruindo a lista inicial ===\n') 
 
     """
